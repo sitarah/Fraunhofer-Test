@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data Filtering and Sorting</title>
+</head>
+<body>
+
+<!-- Your HTML content -->
+
+<script>
+    // Your JavaScript code here
+    const userData = [
+        // User data array...
+    ];
+
+    // Function to filter user data by keyword
+    function filterUserData(keyword) {
+        return userData.filter(user => user.name.toLowerCase().includes(keyword.toLowerCase()));
+    }
+
+    // Function to sort user data by the first letter of name
+    function sortUserDataByFirstLetter() {
+        return userData.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+    }
+
+    // Example usage
+    const filteredData = filterUserData("Leanne");
+    console.log("Filtered Data:", filteredData);
+
+    const sortedData = sortUserDataByFirstLetter();
+    console.log("Sorted Data:", sortedData);
+</script>
+
+</body>
+</html>
