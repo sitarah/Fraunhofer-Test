@@ -3,35 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Data Filtering and Sorting</title>
+    <title>User Data Filter</title>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #userList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #userList li {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Your HTML content -->
+    <body>
 
-<script>
-    // Your JavaScript code here
-    const userData = [
-        // User data array...
-    ];
-
-    // Function to filter user data by keyword
-    function filterUserData(keyword) {
-        return userData.filter(user => user.name.toLowerCase().includes(keyword.toLowerCase()));
-    }
-
-    // Function to sort user data by the first letter of name
-    function sortUserDataByFirstLetter() {
-        return userData.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-    }
-
-    // Example usage
-    const filteredData = filterUserData("Leanne");
-    console.log("Filtered Data:", filteredData);
-
-    const sortedData = sortUserDataByFirstLetter();
-    console.log("Sorted Data:", sortedData);
-</script>
+        <div class="container">
+            <h1>User Data Filter</h1>
+            <!-- Filter input field -->
+            <input type="text" id="filterInput" placeholder="Filter by Name">
+            
+            <!-- Container for displaying user data -->
+            <ul id="userList"></ul>
+        
+            <!-- Input fields for adding new user data -->
+            <input type="text" id="nameInput" placeholder="Name">
+            <input type="text" id="usernameInput" placeholder="Username">
+            <input type="text" id="emailInput" placeholder="Email">
+            <button id="addUserBtn">Add User</button>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const userList = document.getElementById('userList');
+                const filterInput = document.getElementById('filterInput');
+                const nameInput = document.getElementById('nameInput');
+                const usernameInput = document.getElementById('usernameInput');
+                const emailInput = document.getElementById('emailInput');
+                const addUserBtn = document.getElementById('addUserBtn');
+        
+                // Function to render user list
+                function renderUserList(users) {
+                    userList.innerHTML = '';
+                    users.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = user.name;
+                        li.setAttribute('data-id', user.id);
+        
+                        // Create delete button
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.textContent = 'Delete';
+                        deleteBtn.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                            deleteUser(user.id);
+                        });
+        
+                        li.appendChild(deleteBtn);
+                        userList.appendChild(li);
+                    });
+                }
+        
+                // Dummy user data (Replace with your actual data)
+                let users = [
+                    {
+                        id: 1,
+                        name: "John Doe",
+                        username: "johndoe",
+                        email: "johndoe@example.com"
+                    },
+                    {
+                        id: 2,
+                        name: "Jane Smith",
+                        username: "janesmith",
+                        email: "janesmith@example.com"
+                    }
+                ];
+        
+                // Initial render of user list
+                renderUserList(users);
+        
+                // Function to filter user list
+                filterInput.addEventListener('input', function() {
+                    const filteredUsers = users.filter(user => user.name.toLowerCase().includes(filterInput.value.toLowerCase()));
+                    renderUserList(filteredUsers);
+                });
+        
+                // Function to add new user
+                addUserBtn.addEventListener('click', function() {
+                    const newUser = {
+                        id: users.length + 1,
+                        name: nameInput.value.trim(),
+                        username: usernameInput.value.trim(),
+                        email: emailInput.value.trim()
+                    };
+                    users.push(newUser);
+                    renderUserList(users);
+                    nameInput.value = '';
+                    usernameInput.value = '';
+                    emailInput.value = '';
+                });
+        
+                // Function to delete user
+                function deleteUser(userId) {
+                    users = users.filter(user => user.id !== userId);
+                    renderUserList(users);
+                }
+            });
+        </script>
+        
+        </body>
 
 </body>
 </html>
